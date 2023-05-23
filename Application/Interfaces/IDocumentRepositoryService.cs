@@ -10,6 +10,6 @@ namespace Application.Interfaces
 
         Guid? Add(CreateDocumentDto entity);
 
-        DocumentDto? Update(DocumentDto entity);
+        Task<DocumentDto?> Update(DocumentDto entity);
     }
 }

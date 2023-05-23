@@ -53,15 +53,24 @@ namespace Application.Services
             return entity?.Id;
         }
 
-        public DocumentDto? Update(DocumentDto documentDto)
+        public async Task<DocumentDto?> Update(DocumentDto documentDto)
         {
             try
             {
-                var mapped = _mapper.Map<Document>(documentDto);
-                _documentRepository.Update(mapped);
+                var docFromDb = await _documentRepository.GetById(documentDto.Id);
+
+                if(docFromDb == null)
+                {
+                    return null;
+                }
+
+                docFromDb.Data = documentDto.Data;
+                docFromDb.Tags = documentDto.Tags;
+
+                _documentRepository.Update(docFromDb);
                 _unitOfWork.SaveChanges();
 
-                var updated = _documentRepository.GetCreatedOrUpdatedEntity(mapped);
+                var updated = _documentRepository.GetCreatedOrUpdatedEntity(docFromDb);
 
                 if(updated == null)
                 {

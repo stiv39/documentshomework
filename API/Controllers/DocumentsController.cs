@@ -93,11 +93,11 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<DocumentDto> UpdateDocument([FromBody] DocumentDto documentDto)
+        public async Task<ActionResult<DocumentDto>> UpdateDocument([FromBody] DocumentDto documentDto)
         {
             try
             {
-                var result = _documentRepositoryService.Update(documentDto);
+                var result = await _documentRepositoryService.Update(documentDto);
 
                 if (result == null)
                 {
