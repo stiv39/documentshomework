@@ -92,7 +92,6 @@ namespace API.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DocumentDto>> UpdateDocument([FromBody] DocumentDto documentDto)
         {
             try

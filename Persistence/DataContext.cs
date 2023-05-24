@@ -9,6 +9,8 @@ namespace Persistence
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public virtual DbSet<Document> Documents { get; set; }
+        public virtual DbSet<DocumentData> DocumentsData { get; set; }
+        public virtual DbSet<DocumentTag> DocumentTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

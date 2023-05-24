@@ -10,8 +10,5 @@ namespace Persistence
 
         public Task SaveChangesAsync() =>
             _dbContext.SaveChangesAsync();
-
-        public void SaveChanges() =>
-            _dbContext.SaveChanges();
     }
 }

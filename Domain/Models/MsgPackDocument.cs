@@ -1,4 +1,5 @@
-﻿using MessagePack;
+﻿using Domain.Entities;
+using MessagePack;
 
 namespace Domain.Models
 {

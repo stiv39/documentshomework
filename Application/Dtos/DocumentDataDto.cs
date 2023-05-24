@@ -1,6 +1,6 @@
-﻿namespace Domain.Models
+﻿namespace Application.Dtos
 {
-    public class DocumentData
+    public class DocumentDataDto
     {
         public string Name { get; set; }
         public string Content { get; set; }

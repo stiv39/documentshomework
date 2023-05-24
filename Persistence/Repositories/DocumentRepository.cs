@@ -13,12 +13,20 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<Document>> GetAll()
         {
-            var documents = await _dataContext.Documents.ToListAsync();
+            var documents = await _dataContext.Documents
+                .Include(d => d.Tags)
+                .Include(d => d.Data)
+                .ToListAsync();
+
             return documents;
         }
         public async Task<Document?> GetById(Guid id)
         {
-            var document = await _dataContext.Documents.FindAsync(id);
+            var document = await _dataContext.Documents
+                .Include(d => d.Tags)
+                .Include(d => d.Data)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
             return document;
         }
         public void Add(Document entity)

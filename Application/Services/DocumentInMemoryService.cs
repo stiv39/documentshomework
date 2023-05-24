@@ -33,7 +33,7 @@ namespace Application.Services
         public Guid SaveDocument(CreateDocumentDto documentdto)
         {
             var id = Guid.NewGuid();
-            _documents.Add(new Document { Id = id, Data = documentdto.Data, Tags = documentdto.Tags });
+           // _documents.Add(new Document { Id = id, Data = documentdto.Data, Tags = documentdto.Tags });
             return id;
         }
 
@@ -42,8 +42,8 @@ namespace Application.Services
             var originalDocument = _documents.FirstOrDefault(d => d.Id == documentDto.Id);
             if (originalDocument != null)
             {
-                originalDocument.Tags = documentDto.Tags;
-                originalDocument.Data = documentDto.Data;
+                // originalDocument.Tags = documentDto.Tags;
+                //originalDocument.Data = documentDto.Data;
                 return true;
             }
             return false;

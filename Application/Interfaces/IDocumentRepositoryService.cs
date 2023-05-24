@@ -8,7 +8,7 @@ namespace Application.Interfaces
 
         Task<DocumentDto?> GetById(Guid id);
 
-        Guid? Add(CreateDocumentDto entity);
+        Task<Guid?> Add(CreateDocumentDto entity);
 
         Task<DocumentDto?> Update(DocumentDto entity);
     }

@@ -42,11 +42,12 @@ namespace Application.Services
             return _mapper.Map<DocumentDto>(document);
         }
 
-        public Guid? Add(CreateDocumentDto documentDto)
+        public async Task<Guid?> Add(CreateDocumentDto documentDto)
         {
             var mapped = _mapper.Map<Document>(documentDto);
+
             _documentRepository.Add(mapped);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
 
             var entity = _documentRepository.GetCreatedOrUpdatedEntity(mapped);
 
@@ -62,13 +63,13 @@ namespace Application.Services
                 if(docFromDb == null)
                 {
                     return null;
-                }
+                }              
 
-                docFromDb.Data = documentDto.Data;
-                docFromDb.Tags = documentDto.Tags;
+                docFromDb.Data = new DocumentData { Content = documentDto.Data.Content, Name = documentDto.Data.Name};
+                docFromDb.Tags = GetDocumentTags(documentDto);
 
                 _documentRepository.Update(docFromDb);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.SaveChangesAsync();
 
                 var updated = _documentRepository.GetCreatedOrUpdatedEntity(docFromDb);
 
@@ -83,6 +84,18 @@ namespace Application.Services
                 _logger.LogError("update exception", ex);
                 return null;
             }
+        }
+
+        private List<DocumentTag> GetDocumentTags(DocumentDto dto)
+        {
+            var tagsList = new List<DocumentTag>();
+
+            foreach (var tag in dto.Tags)
+            {
+                tagsList.Add(new DocumentTag { Name = tag.Name });
+            }
+
+            return tagsList;
         }
     }
 }

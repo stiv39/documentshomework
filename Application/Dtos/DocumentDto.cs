@@ -5,8 +5,8 @@ namespace Application.Dtos
     public class DocumentDto
     {
         public Guid Id { get; set; }
-        public List<string> Tags { get; set; } = new List<string>();
+        public List<DocumentTagDto> Tags { get; set; } = new List<DocumentTagDto>();
 
-        public DocumentData Data { get; set; }
+        public DocumentDataDto Data { get; set; }
     }
 }
