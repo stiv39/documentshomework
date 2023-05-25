@@ -4,7 +4,7 @@ namespace Application.Interfaces
 {
     public interface IDocumentRepositoryService
     {
-        Task<IEnumerable<DocumentDto>> GetAll();
+        Task<IEnumerable<DocumentDto>> GetAll(int pageNumber, int pageSize);
 
         Task<DocumentDto?> GetById(Guid id);
 

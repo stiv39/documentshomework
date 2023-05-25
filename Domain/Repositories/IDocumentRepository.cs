@@ -4,11 +4,11 @@ namespace Domain.Repositories
 {
     public interface IDocumentRepository
     {
-        Task<IEnumerable<Document>> GetAll();
+        Task<IEnumerable<Document>> GetAll(int pageNumber, int pageSize);
 
         Task<Document?> GetById(Guid id);
 
-        void Add(Document entity);
+        Task Add(Document entity);
 
         void Update(Document entity);
 

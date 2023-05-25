@@ -11,9 +11,13 @@ namespace Persistence.Repositories
         public DocumentRepository(DataContext dataContext) =>
             _dataContext = dataContext;
 
-        public async Task<IEnumerable<Document>> GetAll()
+        public async Task<IEnumerable<Document>> GetAll(int pageNumber, int pageSize)
         {
+            var skip = (pageNumber - 1) * pageSize;
+
             var documents = await _dataContext.Documents
+                .Skip(skip)
+                .Take(pageSize)
                 .Include(d => d.Tags)
                 .Include(d => d.Data)
                 .ToListAsync();
@@ -29,9 +33,9 @@ namespace Persistence.Repositories
 
             return document;
         }
-        public void Add(Document entity)
+        public async Task Add(Document entity)
         {
-            _dataContext.Documents.Add(entity);
+            await _dataContext.Documents.AddAsync(entity);
         }
         public void Update(Document entity)
         {

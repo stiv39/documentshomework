@@ -2,7 +2,7 @@
 {
     public class CreateDocumentDto
     {
-        public List<string> Tags { get; set; } = new List<string>();
+        public List<DocumentTagDto> Tags { get; set; } = new List<DocumentTagDto>();
 
         public DocumentDataDto Data { get; set; }
     }

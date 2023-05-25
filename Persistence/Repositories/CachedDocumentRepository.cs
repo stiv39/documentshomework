@@ -15,9 +15,9 @@ namespace Persistence.Repositories
             _memoryCache = memoryCache;
         }
 
-        public async Task<IEnumerable<Document>> GetAll()
+        public async Task<IEnumerable<Document>> GetAll(int pageNumber, int pageSize)
         {
-            var documents = await _decorated.GetAll();
+            var documents = await _decorated.GetAll(pageNumber, pageSize);
             return documents;
         }
 
@@ -34,9 +34,9 @@ namespace Persistence.Repositories
                     return _decorated.GetById(id);
                 });
         }
-        public void Add(Document entity)
+        public async Task Add(Document entity)
         {
-            _decorated.Add(entity);
+            await _decorated.Add(entity);
         }
 
         public void Update(Document entity)

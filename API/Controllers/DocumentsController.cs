@@ -22,11 +22,16 @@ namespace API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<DocumentDto>))]
-        public async Task<ActionResult<IEnumerable<DocumentDto>>> GetAllDocuments()
+        public async Task<ActionResult<IEnumerable<DocumentDto>>> GetAllDocuments(int pageNumber = 1, int pageSize = 100)
         {
             try
             {
-                var documents = await _documentRepositoryService.GetAll();
+                if (pageNumber <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be greater than zero.");
+                }
+
+                var documents = await _documentRepositoryService.GetAll(pageNumber, pageSize);
 
                 return Ok(documents);
             }
@@ -64,7 +69,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"failed to get document by id {id}", ex);
+                _logger.LogError($"Failed to get document by id {id}", ex);
                 throw;
             }
         }
@@ -72,11 +77,11 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Guid))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Guid> SaveDocument([FromBody] CreateDocumentDto documentDto)
+        public async Task<ActionResult<Guid>> SaveDocument([FromBody] CreateDocumentDto documentDto)
         {
             try
             {
-                var id = _documentRepositoryService.Add(documentDto);
+                var id = await _documentRepositoryService.Add(documentDto);
                 if (id == null) { return BadRequest("Failed to create"); }
 
                 return Ok(id);

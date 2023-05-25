@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using MessagePack;
+﻿using MessagePack;
 
 namespace Domain.Models
 {
@@ -13,6 +12,6 @@ namespace Domain.Models
         public List<string> Tags { get; set; } = new List<string>();
 
         [IgnoreMember] // Investigate implementation of custom resolver
-        public DocumentData Data { get; set; }
+        public MsgPackDocumentData Data { get; set; }
     }
 }

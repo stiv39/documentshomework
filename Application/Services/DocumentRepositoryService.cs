@@ -27,9 +27,9 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<DocumentDto>> GetAll()
+        public async Task<IEnumerable<DocumentDto>> GetAll(int pageNumber, int pageSize)
         {
-            var documents = await _documentRepository.GetAll();
+            var documents = await _documentRepository.GetAll(pageNumber, pageSize);
             var documentDtos = documents.Select(document => _mapper.Map<DocumentDto>(document));
             return documentDtos;
         }
@@ -46,7 +46,7 @@ namespace Application.Services
         {
             var mapped = _mapper.Map<Document>(documentDto);
 
-            _documentRepository.Add(mapped);
+            await _documentRepository.Add(mapped);
             await _unitOfWork.SaveChangesAsync();
 
             var entity = _documentRepository.GetCreatedOrUpdatedEntity(mapped);
@@ -63,10 +63,11 @@ namespace Application.Services
                 if(docFromDb == null)
                 {
                     return null;
-                }              
+                }
 
-                docFromDb.Data = new DocumentData { Content = documentDto.Data.Content, Name = documentDto.Data.Name};
-                docFromDb.Tags = GetDocumentTags(documentDto);
+                docFromDb.Data.Content = documentDto.Data.Content;
+                docFromDb.Data.Name = documentDto.Data.Name;
+                docFromDb.Tags = documentDto.Tags.Select(tag => _mapper.Map<DocumentTag>(tag)).ToList();
 
                 _documentRepository.Update(docFromDb);
                 await _unitOfWork.SaveChangesAsync();
@@ -84,18 +85,6 @@ namespace Application.Services
                 _logger.LogError("update exception", ex);
                 return null;
             }
-        }
-
-        private List<DocumentTag> GetDocumentTags(DocumentDto dto)
-        {
-            var tagsList = new List<DocumentTag>();
-
-            foreach (var tag in dto.Tags)
-            {
-                tagsList.Add(new DocumentTag { Name = tag.Name });
-            }
-
-            return tagsList;
         }
     }
 }
