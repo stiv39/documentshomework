@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using Application.Models;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -27,11 +28,16 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<DocumentDto>> GetAll(int pageNumber, int pageSize)
+        public async Task<DocumentsResponse> GetAll(int pageNumber, int pageSize)
         {
             var documents = await _documentRepository.GetAll(pageNumber, pageSize);
             var documentDtos = documents.Select(document => _mapper.Map<DocumentDto>(document));
-            return documentDtos;
+
+            var totalCount = await _documentRepository.CountAll();
+
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            return new DocumentsResponse { TotalCount = totalCount, TotalPages = totalPages, Documents = documentDtos, PageNumber = pageNumber };
         }
 
         public async Task<DocumentDto?> GetById(Guid id)
@@ -85,6 +91,10 @@ namespace Application.Services
                 _logger.LogError("update exception", ex);
                 return null;
             }
+        }
+        public async Task<int> CountAll()
+        {
+            return await _documentRepository.CountAll();
         }
     }
 }

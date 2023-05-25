@@ -48,5 +48,10 @@ namespace Persistence.Repositories
         {
             return _decorated.GetCreatedOrUpdatedEntity(entity);
         }
+
+        public async Task<int> CountAll()
+        {
+            return await _decorated.CountAll();
+        }
     }
 }

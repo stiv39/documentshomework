@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -21,8 +22,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<DocumentDto>))]
-        public async Task<ActionResult<IEnumerable<DocumentDto>>> GetAllDocuments(int pageNumber = 1, int pageSize = 100)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DocumentsResponse))]
+        public async Task<ActionResult<DocumentsResponse>> GetDocuments(int pageNumber = 1, int pageSize = 100)
         {
             try
             {
@@ -31,9 +32,15 @@ namespace API.Controllers
                     throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be greater than zero.");
                 }
 
-                var documents = await _documentRepositoryService.GetAll(pageNumber, pageSize);
+                if (pageSize <= 0 || pageSize > 100)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be between 1 and 100.");
+                }
+            
 
-                return Ok(documents);
+                var documentsResponse = await _documentRepositoryService.GetAll(pageNumber, pageSize);
+
+                return Ok(documentsResponse);
             }
             catch (Exception ex)
             {

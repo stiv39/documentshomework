@@ -13,5 +13,6 @@ namespace Domain.Repositories
         void Update(Document entity);
 
         Document? GetCreatedOrUpdatedEntity(Document entity);
+        Task<int> CountAll();
     }
 }

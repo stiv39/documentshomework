@@ -48,5 +48,10 @@ namespace Persistence.Repositories
 
             return newEntityEntry.Entity;
         }
+
+        public async Task<int> CountAll()
+        {
+            return await _dataContext.Documents.CountAsync();
+        }
     }
 }

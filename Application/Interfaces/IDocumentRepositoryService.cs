@@ -1,10 +1,11 @@
 ﻿using Application.Dtos;
+using Application.Models;
 
 namespace Application.Interfaces
 {
     public interface IDocumentRepositoryService
     {
-        Task<IEnumerable<DocumentDto>> GetAll(int pageNumber, int pageSize);
+        Task<DocumentsResponse> GetAll(int pageNumber, int pageSize);
 
         Task<DocumentDto?> GetById(Guid id);
 
