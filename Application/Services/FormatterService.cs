@@ -3,6 +3,7 @@ using Application.Interfaces;
 using AutoMapper;
 using Domain.Models;
 using MessagePack;
+using System.IO;
 using System.Net.Mime;
 using System.Xml.Serialization;
 
@@ -36,10 +37,14 @@ namespace Application.Services
         private byte[] XmlFormatter(DocumentDto document)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(DocumentDto));
-            MemoryStream memoryStream = new MemoryStream();
-            serializer.Serialize(memoryStream, document);
-            byte[] xmlData = memoryStream.ToArray();
+            byte[] xmlData;
 
+            using (MemoryStream ms = new MemoryStream())
+            {
+                serializer.Serialize(ms, document);
+                xmlData = ms.ToArray();
+            }
+            
             return xmlData;
         }
     }

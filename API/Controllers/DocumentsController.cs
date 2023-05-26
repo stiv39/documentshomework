@@ -45,7 +45,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Failed to get all documents", ex);
-                throw;
+                return Problem("There was an unexpected error");
             }
         }
 
@@ -77,7 +77,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get document by id {id}", ex);
-                throw;
+                return Problem("There was an unexpected error");
             }
         }
 
@@ -96,7 +96,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Failed to create", ex);
-                throw;
+                return Problem("There was an unexpected error");
             }
 
         }
@@ -120,7 +120,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Failed to update", ex);
-                throw;
+                return Problem("There was an unexpected error");
             }
         }
     }

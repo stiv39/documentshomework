@@ -146,6 +146,11 @@
 
 //            // Assert
 //            Assert.False(result);
+//            ADD NEW ASSERTS SOMETHING LIKE THIS
+//            Assert.NotNull(updatedDocument);
+//            Assert.AreEqual(updatedDocumentDto.Tags, updatedDocument.Tags);
+//            Assert.AreEqual(updatedDocumentDto.Data.Name, updatedDocument.Data.Name);
+//            Assert.AreEqual(updatedDocumentDto.Data.Content, updatedDocument.Data.Content);
 //        }
 //    }
 //}
