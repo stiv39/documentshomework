@@ -24,6 +24,7 @@ namespace Persistence.Repositories
 
             return documents;
         }
+
         public async Task<Document?> GetById(Guid id)
         {
             var document = await _dataContext.Documents

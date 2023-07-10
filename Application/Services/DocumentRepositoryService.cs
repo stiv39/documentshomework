@@ -30,7 +30,8 @@ namespace Application.Services
 
         public async Task<DocumentsResponse> GetAll(int pageNumber, int pageSize)
         {
-            var documents = await _documentRepository.GetAll(pageNumber, pageSize);
+            var documentsTask = await _documentRepository.GetAll(pageNumber, pageSize);
+            var documents =  documentsTask;
             var documentDtos = documents.Select(document => _mapper.Map<DocumentDto>(document));
 
             var totalCount = await _documentRepository.CountAll();
